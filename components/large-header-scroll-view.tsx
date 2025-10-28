@@ -79,7 +79,7 @@ const LargeTitleSafeArea = ({
     };
   });
 
-  // büyük başlık için opacity + transform (kademeli kaybolma)
+  // büyük başlık için opacity + transform + FONT SIZE interpolate
   const largeTitleAnimatedStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollY.value,
@@ -93,22 +93,16 @@ const LargeTitleSafeArea = ({
       [0, -12],
       Extrapolate.CLAMP
     );
-    const scale = interpolate(
-      scrollY.value,
-      [0, SCROLL_RANGE],
-      [1, 0.95],
-      Extrapolate.CLAMP
-    );
     const fontSize = interpolate(
         scrollY.value,
         [0, SCROLL_RANGE],
         [LARGE_FONT_SIZE, SMALL_FONT_SIZE],
         Extrapolate.CLAMP
-    )
+    );
     return {
       opacity,
-      transform: [{ translateY }, { scale }],
-      fontSize
+      transform: [{ translateY }],
+      fontSize,
     };
   });
 
@@ -162,7 +156,9 @@ const LargeTitleSafeArea = ({
 
         <SafeAreaView edges={["top"]} style={styles.safeArea}>
           <Animated.Text
-            style={[styles.title, largeTitleAnimatedStyle, selectedTitleStyle]}
+            /* order matters: base styles, user-provided static styles, then animated style
+               so animated fontSize overrides any static fontSize user passed in */
+            style={[styles.title, selectedTitleStyle as any, largeTitleAnimatedStyle]}
           >
             {title}
           </Animated.Text>
