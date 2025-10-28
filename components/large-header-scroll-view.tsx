@@ -3,15 +3,15 @@ import { BlurView } from "expo-blur";
 import React from "react";
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 import Animated, {
-    Extrapolate,
-    interpolate,
-    useAnimatedScrollHandler,
-    useAnimatedStyle,
-    useSharedValue,
+  Extrapolate,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
 } from "react-native-reanimated";
 import {
-    SafeAreaView,
-    useSafeAreaInsets,
+  SafeAreaView,
+  useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
 type LargeTitleSafeAreaProps = {
@@ -25,6 +25,7 @@ type LargeTitleSafeAreaProps = {
   titleStyleDark?: TextStyle;
   headerLeft?: React.ReactNode;
   headerRight?: React.ReactNode;
+  tabBarHeight?: number; // optional: eğer dışarıda tabbar yüksekliğini biliyorsan ver
 };
 
 const LargeTitleSafeArea = ({
@@ -38,6 +39,7 @@ const LargeTitleSafeArea = ({
   titleStyleDark,
   headerLeft,
   headerRight,
+  tabBarHeight,
 }: LargeTitleSafeAreaProps) => {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
@@ -54,6 +56,8 @@ const LargeTitleSafeArea = ({
     colorScheme === "dark" ? titleStyleDark : titleStyle;
 
   const SIDE_TOP = insets.top + Math.max(0, (HEADER_MIN - insets.top) / 2) - 18;
+  const TAB_BAR_HEIGHT = typeof tabBarHeight === "number" ? tabBarHeight : 100; // default fallback
+  const contentPaddingBottom = insets.bottom + TAB_BAR_HEIGHT;
 
   /// * ANIMATIONS
   // shared value
@@ -189,9 +193,11 @@ const LargeTitleSafeArea = ({
       ) : null}
 
       <Animated.ScrollView
-        contentContainerStyle={{ paddingTop: HEADER_MAX }}
+        contentContainerStyle={{ paddingTop: HEADER_MAX, paddingBottom: contentPaddingBottom }}
         scrollEventThrottle={16}
         onScroll={scrollHandler}
+        // iOS: içerik içeriğinin sistem çubukları tarafından taşınmasını sağlamak için
+        contentInsetAdjustmentBehavior="automatic"
       >
         {children}
       </Animated.ScrollView>
