@@ -1,33 +1,114 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { HapticTab } from "@/components/haptic-tab";
+import { IconSymbol } from "@/components/ui/icon-symbol.ios";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { Foundation } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
+import { Tabs } from "expo-router";
+import React from "react";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
+// TABS
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  // vars
+  const tabBarIconSize = 30;
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+        animation: "fade",
+
+        // styles
+        tabBarStyle: {
+          height: 100,
+          backgroundColor: "transparent",
+          borderTopWidth: 0,
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+        },
+        tabBarIconStyle: {
+          // marginBottom: 5,
+          margin: 5,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
+
+        // .systemThinMaterial
+        tabBarBackground: () => (
+          <BlurView
+            tint={colorScheme === "dark" ? "dark" : "light"}
+            intensity={50}
+            style={{ flex: 1 }}
+          />
+        ),
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="homescreen"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <Foundation size={tabBarIconSize} name="home" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="newsongs"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "New",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol
+              size={tabBarIconSize}
+              name="square.grid.2x2.fill"
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="radio"
+        options={{
+          title: "Radio",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol
+              size={tabBarIconSize}
+              name="dot.radiowaves.left.and.right"
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="archive"
+        options={{
+          title: "Archive",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol
+              size={tabBarIconSize}
+              name="music.note.list"
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol
+              size={tabBarIconSize}
+              name="magnifyingglass"
+              color={color}
+            />
+          ),
         }}
       />
     </Tabs>
