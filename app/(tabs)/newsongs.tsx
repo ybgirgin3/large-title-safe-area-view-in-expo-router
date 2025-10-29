@@ -1,16 +1,10 @@
 import LargeTitleSafeArea from "@/components/large-header-scroll-view";
+import SnappingFlatlist from "@/components/snapping-flat-list";
 import { IconSymbol } from "@/components/ui/icon-symbol.ios";
 import { NewSongsFlatListMock } from "@/constants/mockdata";
 import { Colors } from "@/constants/theme";
 import React from "react";
-import {
-  Dimensions,
-  FlatList,
-  Pressable,
-  Text,
-  useColorScheme,
-  View
-} from "react-native";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 
 const newsongs = () => {
   const colorscheme = useColorScheme();
@@ -57,9 +51,9 @@ export default newsongs;
 const NewSongsFlatList = ({ data }: { data: any }) => {
   const colorscheme = useColorScheme();
   const textcolor = Colors[colorscheme ?? "light"].text;
-  const ITEM_WIDTH = 370
-  const SPACING = 20
-  const SNAPPING = ITEM_WIDTH + SPACING
+  const ITEM_WIDTH = 340;
+  const SPACING = 15;
+  const SNAPPING = ITEM_WIDTH + SPACING;
 
   const renderItem = ({ item }: { item: any }) => {
     return (
@@ -71,7 +65,7 @@ const NewSongsFlatList = ({ data }: { data: any }) => {
             height: 200,
             // backgroundColor: "wheat",
             borderRadius: 20,
-            marginRight: SPACING,
+            marginLeft: SPACING,
           }}
         >
           {/* item headers */}
@@ -118,18 +112,16 @@ const NewSongsFlatList = ({ data }: { data: any }) => {
   };
   return (
     <>
-      <FlatList
+      <SnappingFlatlist
         data={data}
-        snapToInterval={SNAPPING} // her kartın genişliği kadar snap
-        decelerationRate="fast"
-        disableIntervalMomentum={true}
-        snapToAlignment="start"
-        contentContainerStyle={{
-          paddingHorizontal: (Dimensions.get("screen").width - SNAPPING) / 2,
-        }}
-        style={{ height: 300 }}
-        showsHorizontalScrollIndicator={false}
         renderItem={renderItem}
+        itemWidth={ITEM_WIDTH}
+        spacingBetweenItems={SPACING}
+        centerFirstAndLast={false}
+        snapToAlignment="start"
+        style={{height: 300}}
+        contentInsetAdjustmentBehavior="never"
+        showsHorizontalScrollIndicator={false}
         horizontal={true}
       />
     </>

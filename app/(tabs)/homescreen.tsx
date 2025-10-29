@@ -1,7 +1,8 @@
 import LargeTitleSafeArea from "@/components/large-header-scroll-view";
-import SnappingFlatlist from "@/components/SnappingFlatlist";
+import SnappingFlatlist from "@/components/snapping-flat-list";
 import { IconSymbol } from "@/components/ui/icon-symbol.ios";
 import { BigStationCardListMock, LastPlayedMock } from "@/constants/mockdata";
+import { Colors } from "@/constants/theme";
 import React from "react";
 import {
   FlatList,
@@ -13,12 +14,15 @@ import {
 } from "react-native";
 
 export default function HomeScreen() {
+  const colorscheme = useColorScheme();
+
   return (
     <LargeTitleSafeArea
       title="Home"
-      headerStyle={{ backgroundColor: "#ffffff56" }}
-      titleStyle={{ color: "black" }}
-      titleStyleDark={{ color: "white" }}
+      headerStyle={{
+        backgroundColor: Colors[colorscheme ?? "light"].headerBackgroundColor,
+      }}
+      titleStyle={{ color: Colors[colorscheme ?? "light"].text }}
       headerRight={
         <Pressable
           onPress={() => {
@@ -55,21 +59,27 @@ const BigStationCardList = ({ data }: { data: any }) => {
   const SPACING = 15;
 
   const BigStationCardRenderItem = ({ item }: { item: any }) => {
-    console.log(item);
-
     return (
       <View>
         {/* subtitle */}
-        <View style={{ paddingBottom: 5 }}>
-          <Text style={{ opacity: 0.6, fontSize: 14 }}>{item.subtitle}</Text>
+        <View style={{ paddingBottom: 5, marginLeft: 15 }}>
+          <Text
+            style={{
+              opacity: 0.6,
+              fontSize: 14,
+              color: Colors[colorscheme ?? "light"].text,
+            }}
+          >
+            {item.subtitle}
+          </Text>
         </View>
         <View
           style={{
-            width: 300,
+            width: ITEM_WIDTH,
             height: 400,
             // backgroundColor: "purple",
             // borderRadius: radius,
-            marginRight: 15,
+            marginHorizontal: 7,
           }}
         >
           {/* image background */}
@@ -120,7 +130,7 @@ const BigStationCardList = ({ data }: { data: any }) => {
         itemWidth={ITEM_WIDTH}
         centerFirstAndLast={false}
         spacingBetweenItems={SPACING}
-        style={{ marginLeft: 10 }}
+        style={{}}
         data={data}
         showsHorizontalScrollIndicator={false}
         contentInsetAdjustmentBehavior="never"

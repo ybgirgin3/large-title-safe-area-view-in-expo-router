@@ -1,9 +1,9 @@
 import React from "react";
 import {
-    Dimensions,
-    FlatList,
-    FlatListProps,
-    ViewStyle
+  Dimensions,
+  FlatList,
+  FlatListProps,
+  ViewStyle
 } from "react-native";
 
 type SnappingProps<ItemT> = FlatListProps<ItemT> & {

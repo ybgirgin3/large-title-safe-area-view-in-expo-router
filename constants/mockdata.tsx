@@ -70,30 +70,30 @@ export const NewSongsFlatListMock = [
     listType: "Live List",
     listName: "BASE:LINE",
     listOwner: "Apple Music",
-    imageBackground: "black"
+    imageBackground: "black",
   },
-    {
+  {
     title: "Pitbul",
     titleColor: "black",
     listType: "Recently Played",
     listName: "DANCE:LINE",
     listOwner: "Pitbull",
-    imageBackground: "yellow"
+    imageBackground: "yellow",
   },
-      {
+  {
     title: "Drake",
     titleColor: "white",
     listType: "Recently Played",
     listName: "DANCE:LINE",
     listOwner: "Pitbull",
-    imageBackground: "gray"
+    imageBackground: "gray",
   },
-      {
+  {
     title: "JEssy J",
     titleColor: "black",
     listType: "Recently Played",
     listName: "DANCE:LINE",
     listOwner: "Pitbull",
-    imageBackground: "red"
+    imageBackground: "red",
   },
-]
+];
