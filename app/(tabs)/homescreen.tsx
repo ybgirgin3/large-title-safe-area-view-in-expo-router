@@ -1,4 +1,5 @@
 import LargeTitleSafeArea from "@/components/large-header-scroll-view";
+import SnappingFlatlist from "@/components/SnappingFlatlist";
 import { IconSymbol } from "@/components/ui/icon-symbol.ios";
 import { BigStationCardListMock, LastPlayedMock } from "@/constants/mockdata";
 import React from "react";
@@ -41,7 +42,6 @@ export default function HomeScreen() {
       >
         <BigStationCardList data={BigStationCardListMock} />
         <LastPlayed data={LastPlayedMock} />
-        <MetalRecommended data={LastPlayedMock} />
       </View>
     </LargeTitleSafeArea>
   );
@@ -51,15 +51,17 @@ export default function HomeScreen() {
 const BigStationCardList = ({ data }: { data: any }) => {
   const colorscheme = useColorScheme();
   const textcolor = colorscheme === "dark" ? "white" : "black";
+  const ITEM_WIDTH = 300;
+  const SPACING = 15;
 
   const BigStationCardRenderItem = ({ item }: { item: any }) => {
+    console.log(item);
+
     return (
       <View>
         {/* subtitle */}
         <View style={{ paddingBottom: 5 }}>
-          <Text style={{ opacity: 0.6, fontSize: 14, color: textcolor }}>
-            {item.subtitle}
-          </Text>
+          <Text style={{ opacity: 0.6, fontSize: 14 }}>{item.subtitle}</Text>
         </View>
         <View
           style={{
@@ -114,10 +116,14 @@ const BigStationCardList = ({ data }: { data: any }) => {
           Special Songs For You
         </Text>
       </View>
-      <FlatList
+      <SnappingFlatlist
+        itemWidth={ITEM_WIDTH}
+        centerFirstAndLast={false}
+        spacingBetweenItems={SPACING}
+        style={{ marginLeft: 10 }}
         data={data}
-        style={{ paddingLeft: 15 }}
         showsHorizontalScrollIndicator={false}
+        contentInsetAdjustmentBehavior="never"
         renderItem={BigStationCardRenderItem}
         horizontal={true}
       />
@@ -127,79 +133,6 @@ const BigStationCardList = ({ data }: { data: any }) => {
 
 // Last Played
 const LastPlayed = ({ data }: { data: any }) => {
-  const colorscheme = useColorScheme();
-  const textColor = colorscheme === "dark" ? "white" : "black";
-
-  const renderItem = ({ item }: { item: any }) => {
-    return (
-      <View
-        style={{
-          width: 150,
-          height: 150,
-          borderRadius: 10,
-          marginTop: 20,
-          margin: 10,
-          // backgroundColor: item.imageBackground,
-        }}
-      >
-        {/* image background */}
-        <View
-          style={{
-            backgroundColor: item.imageBackground,
-            width: "100%",
-            height: "80%",
-            borderRadius: 10,
-          }}
-        ></View>
-        <View
-          style={{ width: "100%", height: "20%", justifyContent: "center" }}
-        >
-          <Text style={{ fontWeight: "600", color: textColor }}>
-            {item.title}
-          </Text>
-        </View>
-      </View>
-    );
-  };
-  return (
-    <>
-      <View
-        style={{
-          width: "100%",
-          marginTop: 10,
-          height: 50,
-          // backgroundColor: "purple",
-          justifyContent: "center",
-          paddingHorizontal: 15,
-        }}
-      >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: textColor }}>
-            Last Played
-          </Text>
-          <TouchableOpacity
-            onPress={() => {}}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            style={{ marginLeft: 5 }}
-          >
-            <IconSymbol name="chevron.right" color={textColor} size={15} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <FlatList
-        data={data}
-        style={{ paddingLeft: 5 }}
-        showsHorizontalScrollIndicator={false}
-        renderItem={renderItem}
-        horizontal={true}
-      />
-    </>
-  );
-};
-
-// Metal (personal recommended)
-
-const MetalRecommended = ({ data }: { data: any }) => {
   const colorscheme = useColorScheme();
   const textColor = colorscheme === "dark" ? "white" : "black";
 
