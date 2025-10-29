@@ -25,7 +25,7 @@ type LargeTitleSafeAreaProps = {
   titleStyleDark?: TextStyle;
   headerLeft?: React.ReactNode;
   headerRight?: React.ReactNode;
-  tabBarHeight?: number; // optional: eğer dışarıda tabbar yüksekliğini biliyorsan ver
+  bottomTabBarHeight?: number;
 };
 
 const LargeTitleSafeArea = ({
@@ -36,10 +36,9 @@ const LargeTitleSafeArea = ({
   headerMin,
   headerStyle,
   titleStyle,
-  titleStyleDark,
   headerLeft,
   headerRight,
-  tabBarHeight,
+  bottomTabBarHeight,
 }: LargeTitleSafeAreaProps) => {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
@@ -52,12 +51,12 @@ const LargeTitleSafeArea = ({
   const SMALL_FONT_SIZE = 17
 
   // choose styles
-  const selectedTitleStyle =
-    colorScheme === "dark" ? titleStyleDark : titleStyle;
+  // const selectedTitleStyle =
+  //   colorScheme === "dark" ? titleStyleDark : titleStyle;
 
   const SIDE_TOP = insets.top + Math.max(0, (HEADER_MIN - insets.top) / 2) - 18;
-  const TAB_BAR_HEIGHT = typeof tabBarHeight === "number" ? tabBarHeight : 100; // default fallback
-  const contentPaddingBottom = insets.bottom + TAB_BAR_HEIGHT;
+  const BOTTOM_TAB_BAR_HEIGHT = typeof bottomTabBarHeight === "number" ? bottomTabBarHeight : 100; // default fallback
+  const contentPaddingBottom = insets.bottom + BOTTOM_TAB_BAR_HEIGHT;
 
   /// * ANIMATIONS
   // shared value
@@ -153,7 +152,7 @@ const LargeTitleSafeArea = ({
         <Animated.View
           style={[styles.smallTitleContainer, smallTitleAnimatedStyle]}
         >
-          <Text style={[styles.smallTitleText, selectedTitleStyle]}>
+          <Text style={[styles.smallTitleText, titleStyle]}>
             {title}
           </Text>
         </Animated.View>
@@ -162,7 +161,7 @@ const LargeTitleSafeArea = ({
           <Animated.Text
             /* order matters: base styles, user-provided static styles, then animated style
                so animated fontSize overrides any static fontSize user passed in */
-            style={[styles.title, selectedTitleStyle as any, largeTitleAnimatedStyle]}
+            style={[styles.title, titleStyle as any, largeTitleAnimatedStyle]}
           >
             {title}
           </Animated.Text>
@@ -197,7 +196,7 @@ const LargeTitleSafeArea = ({
         scrollEventThrottle={16}
         onScroll={scrollHandler}
         // iOS: içerik içeriğinin sistem çubukları tarafından taşınmasını sağlamak için
-        contentInsetAdjustmentBehavior="automatic"
+        contentInsetAdjustmentBehavior={"never"}
       >
         {children}
       </Animated.ScrollView>
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    backgroundColor: "purple",
+    backgroundColor: "red",
     zIndex: 10,
     elevation: 10,
     overflow: "hidden",
